@@ -35,11 +35,14 @@ node{
         }
         def versionSuffixDeclaration = ''
         if (!versionSuffixes.isEmpty()) {
-            versionSuffixDeclaration = '-Dversion.suffix=' + versionSuffixes.join('-')
+            versionSuffixDeclaration = '-Dversion.suffix=' + versionSuffixes.join('-') + ' -Dversion.suffix.snapshot=true'
         }
         lock('bindgen') {
-            withMaven(jdk: 'JDK 1.8', maven: 'Maven 3.3.x') {
-                sh "mvn -DskipTests -Ddistribution=owsi-core-release ${versionSuffixDeclaration} ${toolchain} clean ${target}"
+            dir('processor') {
+                withMaven(jdk: 'JDK 1.8', maven: 'Maven 3.3.x') {
+                    sh "mvn -Ddistribution=owsi-core-release ${versionSuffixDeclaration} ${toolchain} clean ${target}"
+                    step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
+                }
             }
             setBuildStatus('build complete!', 'SUCCESS', jdkSuffix)
         }
