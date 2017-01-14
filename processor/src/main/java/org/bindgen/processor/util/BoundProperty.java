@@ -170,6 +170,10 @@ public class BoundProperty {
 		return CurrentEnv.getConfig().shouldGenerateBindingFor(this.name);
 	}
 
+	public boolean existsFieldTypeBindingFor() {
+		return CurrentEnv.getConfig().existsFieldTypeBindingFor(this.name, this.element);
+	}
+
 	private String getInnerClassSuperClass(boolean replaceWildcards) {
 		// Arrays don't have individual binding classes
 		if (this.isArray()) {
@@ -180,8 +184,11 @@ public class BoundProperty {
 			return getConfig().bindingPathSuperClassName() + "<R, " + this.getGenericElement() + ">";
 		}
 
-		// if our type is outside the binding scope we return a generic binding type
-		if (!this.shouldGenerateBindingClassForType()) {
+		// if our type is outside the binding scope and no existing binding is available,
+		// we return a generic binding type
+		if (!this.shouldGenerateBindingClassForType()
+				&& !existsFieldTypeBindingFor() // check if type binding already exists ; if so, we can use it
+				) {
 			return GenericObjectBindingPath.class.getName() + "<R," + this.type.toString() + ">";
 		}
 

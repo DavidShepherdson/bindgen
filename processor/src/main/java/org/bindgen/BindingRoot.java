@@ -8,6 +8,9 @@ package org.bindgen;
  */
 public interface BindingRoot<R, T> extends Binding<T> {
 
+	@Override
+	Binding<R> getRootBinding();
+
 	/**
 	 * @param root the explicit root to use for traversing the path
 	 * @return the value for this binding when evaluated against <code>root</code> 

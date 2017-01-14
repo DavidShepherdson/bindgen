@@ -1,0 +1,91 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	
+	<artifactId>bindgen</artifactId>
+	<groupId>org.bindgen</groupId>
+	<version>3.0.0-SNAPSHOT</version>
+	
+	<name>Bindgen</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>joist</groupId>
+			<artifactId>joist-util</artifactId>
+			<version>1.4.17</version>
+		</dependency>
+		
+		<!-- Test dependencies -->
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+			<version>4.11</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.0</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<compilerArgument>-proc:none</compilerArgument>
+					<testCompilerArgument>-proc:none</testCompilerArgument>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+				<configuration>
+					<additionalparam>-Xdoclint:none</additionalparam>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+			</plugin>
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>bindgen</id>
+			<url>http://repo.joist.ws/</url>
+		</repository>
+	</repositories>
+
+	<scm>
+		<url>git@github.com:openwide-java/bindgen.git</url>
+		<connection>scm:git:git@github.com:openwide-java/bindgen.git</connection>
+		<developerConnection>scm:git:git@github.com:openwide-java/bindgen.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<profiles>
+		<profile>
+			<activation>
+				<property>
+					<name>distribution</name>
+					<value>owsi-core-release</value>
+				</property>
+			</activation>
+			<distributionManagement>
+				<repository>
+					<id>nexus-owsi-core</id>
+					<name>Nexus OWSI Core</name>
+					<url>https://projects.openwide.fr/services/nexus/content/repositories/owsi-core</url>
+				</repository>
+				<snapshotRepository>
+					<id>nexus-owsi-core-snapshots</id>
+					<name>Nexus OWSI Core Snapshots</name>
+					<url>https://projects.openwide.fr/services/nexus/content/repositories/owsi-core-snapshots</url>
+				</snapshotRepository>
+			</distributionManagement>
+		</profile>
+	</profiles>
+
+</project>

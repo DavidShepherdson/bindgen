@@ -41,6 +41,19 @@ public abstract class AbstractBinding<R, T> implements BindingRoot<R, T> {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
+	public Binding<R> getRootBinding() {
+		Binding<?> parent = getParentBinding();
+		if (parent == null) {
+			// We should be in a BindingRoot<R, R> => Cast is safe
+			return (Binding<R>) this;
+		} else {
+			// Parent's root type is expected to be the same as ours => Cast is safe
+			return (Binding<R>) parent.getRootBinding();
+		}
+	}
+
+	@Override
 	public String toString() {
 		if (this.getParentBinding() == null) {
 			// This is kind of lame, but GWT doesn't support getSimpleName, so use getName

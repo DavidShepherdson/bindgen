@@ -22,6 +22,9 @@ public interface Binding<T> extends NamedBinding, Serializable {
 	/** @return the parent binding, e.g. parent if we are foo in binding.parent().foo() */
 	Binding<?> getParentBinding();
 
+	/** @return the root binding, e.g. myBinding if we are foo in new MyBinding().parent().foo() */
+	Binding<?> getRootBinding();
+
 	/** @return the bindings of the attributes for our current instance. */
 	List<Binding<?>> getChildBindings();
 
